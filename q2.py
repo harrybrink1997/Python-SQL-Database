@@ -51,7 +51,7 @@ checker = 1
 courses = []
 for numbers, count, letters, _ignore in cur.fetchall():
 
-    if (checker == numCourses):
+    if checker == numCourses:
         courses.append(letters)
 
         courseNumbers = courses[0]
@@ -64,11 +64,15 @@ for numbers, count, letters, _ignore in cur.fetchall():
             print('{} '.format(sortedCourses[i]), end = "" ),
 
         courses = []
-        checker  = 1
+        checker = 1
 
-    elif (checker == 1):
+    elif checker == 1:
         courses.append(numbers)
         courses.append(letters)
-        checler += 1
+        checker += 1
+    else:
+        courses.append(letters)
+        checker += 1
+
     
 conn.close()
