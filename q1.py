@@ -37,7 +37,7 @@ except Exception as e:
 rows = cur.fetchall()
 
 for code,quota,count in rows:
-    percentOver = round(count / quota)
+    percentOver = round(100 * count / quota)
     print('{} {}%'.format(code, percentOver))
 
 conn.close()
