@@ -3,7 +3,6 @@ import sys
 
 
 courseName = sys.argv[1] if len(sys.argv) > 1 else "ENGG"
-# to be replaced for creating purposes
 
 query = '''select s.code, b.name
 from subjects s join courses c on (s.id = c.subject_id)
@@ -16,7 +15,6 @@ where t.name like '19T2'
 and s.code like '{}%'
 order by b.name;'''.format(courseName)
 
-print("{}".format(query))
 
 try:
     conn = psycopg2.connect("dbname='a3'")
