@@ -31,7 +31,9 @@ for name,code,count in cur.fetchall():
 
     if name not in termDict:
         termDict[name] = {}
-        termDict[name][code] = count
+        codeCounts = termDict[name]
+        codeCounts[code] = count
+        #termDict[name][code] = count
 
     else:
         codeCounts = termDict[name]
