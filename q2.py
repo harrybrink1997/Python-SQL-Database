@@ -57,10 +57,10 @@ for numbers, count, letters, _ignore in cur.fetchall():
             courses.pop(0)
             sortedCourses = sorted(courses)
             
-            print('{}: '.format(courseNumbers)),
+            print('{}: '.format(courseNumbers), end = ""),
 
             for i in range(len(sortedCourses)):
-                print('{} '.format(sortedCourses)),
+                print('{} '.format(sortedCourses[i]), end = "" ),
 
 
             print("")
@@ -70,6 +70,9 @@ for numbers, count, letters, _ignore in cur.fetchall():
 
     courses.append(letters)
     checker += 1
+
+    if (numbers == "5006"):
+        print("true")
 
     
 
