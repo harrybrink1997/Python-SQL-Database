@@ -58,14 +58,7 @@ for numbers, count, letters, _ignore in cur.fetchall():
             sortedCourses = sorted(courses)
 
             print('{}: '.format(courseNumbers))
-
-            for (j in sortedCourses):
-                if (j != len(sortedCourses) - 1):
-                    print('{}, '.format(j))
-                else:
-                    print('{}'.format(j))
-
-
+            print('{} '.format(sortedCourses))
             print('{}: '.format(courses))
             courses = []
         
