@@ -53,8 +53,20 @@ for numbers, count, letters, _ignore in cur.fetchall():
 
     if (checker % numCourses == 1):
         if (checker != 1):
-            
-            print('{}'.format(courses))
+            courseNumbers = courses[0]
+            courses.pop(0)
+            sortedCourses = sorted(courses)
+
+            print('{}: '.format(courseNumbers))
+
+            for (j in sortedCourses):
+                if (j != len(sortedCourses) - 1):
+                    print('{}, '.format(j))
+                else:
+                    print('{}'.format(j))
+
+
+            print('{}: '.format(courses))
             courses = []
         
         courses.append(numbers)
