@@ -2,9 +2,9 @@ import psycopg2
 import sys
 
 
-numCourses = sys.argv[1] if len(sys.argv) > 1 else 2
-if (int(numCourses) < 2 or int(numCourses) > 10):
-    numCourses = 2
+#numCourses = sys.argv[1] if len(sys.argv) > 1 else 2
+#if (int(numCourses) < 2 or int(numCourses) > 10):
+#    numCourses = 2
 
 
 view1 = '''create or replace view splitCodes as
@@ -18,8 +18,8 @@ group by s.numbers;'''
 
 query = '''select *
 from countCodes c join splitCodes s on (s.numbers = c.numbers)
-where c.count = {}
-order by c.numbers asc;'''.format(numCourses)
+where c.count = 8
+order by c.numbers asc;'''#.format(int(numCourses))
 
 
 
@@ -52,6 +52,7 @@ except Exception as e:
     print("Error selecting from table")
     print (e)
 
+numCourses = 8
 checker = 1
 courses = []
 for numbers, count, letters, _ignore in cur.fetchall():
