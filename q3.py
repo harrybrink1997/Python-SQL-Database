@@ -4,7 +4,6 @@ import sys
 
 courseName = sys.argv[1] if len(sys.argv) > 1 else "ENGG"
 # to be replaced for creating purposes
-courseName = "SOLA"
 
 query = '''select s.code, b.name
 from subjects s join courses c on (s.id = c.subject_id)
@@ -14,9 +13,10 @@ join meetings m on (cl.id = m.class_id)
 join rooms r on (r.id = m.room_id)
 join buildings b on (b.id = r.within)
 where t.name like '19T2'
-and s.code like '{}%';'''.format(courseName)
+and s.code like '{}%'
+order by b.name;'''.format(courseName)
 
-print("{}".format(view1))
+print("{}".format(query))
 
 try:
     conn = psycopg2.connect("dbname='a3'")
@@ -43,10 +43,11 @@ for code,name in cur.fetchall():
         if code not in courseCodes:
             courseCodes.append(code)
 
-for building in buildingDict:
-    print("{}".foramt(building))
-    courseCodes = buildingDict[building]
-    for i in range((len(courseCodes) - 1):
+for building in sorted(buildingDict):
+    print("{}".format(building))
+    courseCodes = sorted(buildingDict[building])
+
+    for i in range(len(courseCodes)):
         print(" {}".format(courseCodes[i]))
 
 
