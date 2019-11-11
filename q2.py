@@ -46,18 +46,21 @@ except Exception as e:
     print("Error selecting from table")
     print (e)
 
+
+checker = 1
+courses = []
 for numbers, count, letters, _ignore in cur.fetchall():
-    checker = 1
-    courses = []
+
     if (checker % numCourses == 1):
         if (checker != 1):
             
-            print(courses)
+            print('{}'.format(courses))
+            courses = []
         
-        courses = [numbers]
+        courses.append(numbers)
 
     courses.append(letters)
-    checker = checker + 1
+    checker += 1
 
     
 
