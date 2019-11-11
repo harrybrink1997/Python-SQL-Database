@@ -51,29 +51,24 @@ checker = 1
 courses = []
 for numbers, count, letters, _ignore in cur.fetchall():
 
-    if (checker % numCourses == 1):
-        if (checker != 1):
-            courseNumbers = courses[0]
-            courses.pop(0)
-            sortedCourses = sorted(courses)
-            
-            print('{}: '.format(courseNumbers), end = ""),
+    if (checker == numCourses):
+        courses.append(letters)
 
-            for i in range(len(sortedCourses)):
-                print('{} '.format(sortedCourses[i]), end = "" ),
-
-
-            print("")
-            courses = []
+        courseNumbers = courses[0]
+        courses.pop(0)
+        sortedCourses = sorted(courses)
         
+        print('{}: '.format(courseNumbers), end = ""),
+
+        for i in range(len(sortedCourses)):
+            print('{} '.format(sortedCourses[i]), end = "" ),
+
+        courses = []
+        checker  = 1
+
+    elif (checker == 1):
         courses.append(numbers)
-
-    courses.append(letters)
-    checker += 1
-
-    if (numbers == "5006"):
-        print("true")
-
+        courses.append(letters)
+        checler += 1
     
-
 conn.close()
