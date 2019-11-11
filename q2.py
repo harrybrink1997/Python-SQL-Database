@@ -27,7 +27,10 @@ except Exception as e:
 
 cur = conn.cursor()
 
-numCourses = 8
+numCourses = sys.argv[1] if len(sys.argv) > 1 else 2
+if (int(numCourses) < 2 or int(numCourses) 10):
+    numCourses = 2
+
 try:
     cur.execute(view1)
 except Exception as e:
@@ -45,7 +48,6 @@ try:
 except Exception as e:
     print("Error selecting from table")
     print (e)
-
 
 checker = 1
 courses = []
