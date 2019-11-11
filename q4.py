@@ -43,9 +43,9 @@ for term in sorted(termDict):
     print("{}".format(term))
 
     codeCounts = sorted(termDict[term])
-
-    for course in codeCounts:
-        print({" {}({})".format(course, codeCounts[course]))
+    print("{}".format(codeCounts))
+#    for course in codeCounts:
+#        print(" {}({})".format(course, codeCounts[course]))
 
 
 
