@@ -33,7 +33,6 @@ for name,code,count in cur.fetchall():
         termDict[name] = {}
         codeCounts = termDict[name]
         codeCounts[code] = count
-        #termDict[name][code] = count
 
     else:
         codeCounts = termDict[name]
@@ -44,10 +43,10 @@ for name,code,count in cur.fetchall():
 for term in sorted(termDict):
     print("{}".format(term))
 
-    codeCounts = sorted(termDict[term])
-    print("{}".format(codeCounts))
-#    for course in codeCounts:
-#        print(" {}({})".format(course, codeCounts[course]))
+    codeCounts = termDict[term]
+
+   for course in sorted(codeCounts):
+       print(" {}({})".format(course, codeCounts[course]))
 
 
 
