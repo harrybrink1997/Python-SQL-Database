@@ -1,19 +1,19 @@
 import psycopg2
 
 
-view1 = create or replace view splitCodes as
+view1 = '''create or replace view splitCodes as
 select substring(s.code from 1 for 3) as letters, substring(s.code from 5 for 7) as numbers
-from subjects s;
+from subjects s;'''
 
-view2 = create or replace view countCodes as
+view2 = '''create or replace view countCodes as
 select s.numbers, count(*)
 from splitCodes s
-group by s.numbers;
+group by s.numbers;'''
 
-query = select *
+query = '''select *
 from countCodes c join splitCodes s on (s.numbers = c.numbers)
 where c.count = 8
-order by c.numbers asc;
+order by c.numbers asc;'''
 
 
 
