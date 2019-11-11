@@ -2,7 +2,7 @@ import psycopg2
 
 
 view1 = '''create or replace view splitCodes as
-select substring(s.code from 1 for 3) as letters, substring(s.code from 5 for 7) as numbers
+select substring(s.code from 1 for 4) as letters, substring(s.code from 5 for 7) as numbers
 from subjects s;'''
 
 view2 = '''create or replace view countCodes as
@@ -56,10 +56,14 @@ for numbers, count, letters, _ignore in cur.fetchall():
             courseNumbers = courses[0]
             courses.pop(0)
             sortedCourses = sorted(courses)
+            
+            print('{}: '.format(courseNumbers)),
 
-            print('{}: '.format(courseNumbers))
-            print('{} '.format(sortedCourses))
-            print('{}: '.format(courses))
+            for i in range(len(sortedCourses)):
+                print('{} '.format(sortedCourses)),
+
+
+            print("")
             courses = []
         
         courses.append(numbers)
