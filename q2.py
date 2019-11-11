@@ -63,6 +63,7 @@ for numbers, count, letters, _ignore in cur.fetchall():
         for i in range(len(sortedCourses)):
             print('{} '.format(sortedCourses[i]), end = "" ),
 
+        print("")
         courses = []
         checker = 1
 
