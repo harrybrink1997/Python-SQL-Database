@@ -46,7 +46,7 @@ except Exception as e:
     print("Error selecting from table")
     print (e)
 
-for numbers, count, letters in cur.fetchall():
+for numbers, count, letters, _ignore in cur.fetchall():
     checker = 1
     courses = []
     if (checker % numCourses == 1):
