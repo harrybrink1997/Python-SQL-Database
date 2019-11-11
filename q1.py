@@ -13,6 +13,7 @@ select c.course_id, count(*)
 from course_enrolments c
 group by course_id;'''
 
+
 query = '''select s.code, c.quota, g.count
 from subjects s join courses c on (s.id = c.subject_id)
 join terms t on (c.term_id = t.id)

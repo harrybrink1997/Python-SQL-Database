@@ -2,19 +2,19 @@ import psycopg2
 import sys
 
 
-courseName = sys.argv[1] if len(sys.argv) > 1 else "ENGG"
+courseName = sys.argv[1] if len(sys.argv) > 1 else "COMP1521"
 
-view1 = '''create or replace view getCourseEnrolments as
-select c.course_id, count(*)
-from course_enrolments c
-group by course_id;'''
+query = 
 
-query = '''select t.name, s.code, g.count
+select s.code
 from subjects s join courses c on (s.id = c.subject_id)
 join terms t on (c.term_id = t.id)
-join getCourseEnrolments g on (c.id = g.course_id)
+join getCourseEnrolments e on (c.id = e.course_id)
 join classes cl on (cl.course_id = c.id)
-where s.code like '{}%';'''.format(courseName)
+join meetings m on (cl.id = m.class_id)
+where s.code like 'COMP1521'
+and t.name like '19T3';
+and g.count / 2 
 
 
 try:
@@ -24,12 +24,6 @@ except Exception as e:
     print(e)
 
 cur = conn.cursor()
-
-try:
-    cur.execute(view1)
-except Exception as e:
-    print("Error creating view")
-    print (e)
 
 try:
     cur.execute(query)
