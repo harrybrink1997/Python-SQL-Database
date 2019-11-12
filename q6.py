@@ -30,18 +30,18 @@ for id, weeks in cur.fetchall():
         for segments in separatedWeeks:
             weeksRange = segments.split('-')
             if len(weeksRange) > 1:
-                for i in range(weeksRange[0], weeksRange[1] + 1):
+                for i in range(int(weeksRange[0]), int(weeksRange[1]) + 1):
                     binaryString[i - 1] = 1
             else:
-                binaryString[weeksRange[0] - 1] = 1
+                binaryString[int(weeksRange[0]) - 1] = 1
     
-    insertionBinary = ""
+    insertionBinary = ''
     for digit in binaryString:
         insertionBinary += str(digit)
 
     insertionQuery = '''update meetings 
     set weeks_binary = {} 
-    where id like ''{}'''''.format(insertionBinary, id)
+    where id = {}'''.format(insertionBinary, id)
 
     print("{}".format(insertionQuery))
 
@@ -51,5 +51,5 @@ for id, weeks in cur.fetchall():
         print("Error updating the weeks table")
         print(e)
 
-
+conn.commit()
 conn.close()
