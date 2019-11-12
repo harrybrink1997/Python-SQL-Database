@@ -1,4 +1,5 @@
 import psycopg2
+import sys
 
 
 term = sys.argv[1] if len(sys.argv) > 1 else 1
@@ -13,11 +14,7 @@ elif term == 2:
 elif term == 3:
     term = '19T3'
 
-query1 = '''select count(distinct id)
-from rooms
-where code like 'K%';'''
-
-query2 = '''select (m.end_time::float - m.start_time::float)/100 as hours, r.id as room_id, m.weeks_binary
+query1 = '''select (m.end_time::float - m.start_time::float)/100 as hours, r.id as room_id, m.weeks_binary
 from meetings m join rooms r on (r.id = m.room_id) 
 join classes cl on (cl.id = m.class_id)
 join courses c on (c.id = cl.course_id)
@@ -35,16 +32,6 @@ cur = conn.cursor()
 
 try:
     cur.execute(query1)
-except Exception as e:
-    print("Error selecting from table1")
-    print (e)
-
-
-for count in cur.fetchall():
-    totalRoomCount = count    
-
-try:
-    cur.execute(query2)
 except Exception as e:
     print("Error selecting from table2")
     print (e)
@@ -64,10 +51,11 @@ for hours, room_id, weeks_binary in cur.fetchall():
         roomDictionary[room_id] += hours * weeksCount
 
 for room in roomDictionary:
+    totalRooms += 1
     if roomDictionary[room] / numWeeks < 20:
         unusedRooms += 1
 
-print("{}%".format(round((unusedRooms/totalRoomCount), 1)))
+print("{}%".format(round((unusedRooms/totalRooms), 1)))
 
        
 
