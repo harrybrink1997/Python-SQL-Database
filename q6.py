@@ -40,7 +40,7 @@ for id, weeks in cur.fetchall():
         insertionBinary += str(digit)
 
     insertionQuery = '''update meetings 
-    set weeks_binary = {} 
+    set weeks_binary = '{}' 
     where id = {}'''.format(insertionBinary, id)
 
     print("{}".format(insertionQuery))
