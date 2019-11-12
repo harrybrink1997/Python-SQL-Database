@@ -43,8 +43,6 @@ for id, weeks in cur.fetchall():
     set weeks_binary = '{}' 
     where id = {}'''.format(insertionBinary, id)
 
-    print("{}".format(insertionQuery))
-
     try:
         cur.execute(insertionQuery)
     except Exception as e:
