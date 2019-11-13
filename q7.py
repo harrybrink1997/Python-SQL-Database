@@ -2,8 +2,6 @@ import psycopg2
 import sys
 
 
-term = sys.argv[1] if len(sys.argv) > 1 else '19T1'
-
 def getHours(start,end):
     hours = 0
     strStart = str(start)
@@ -18,6 +16,9 @@ def getHours(start,end):
 
     hours += ((end - start) / 100)
     return hours
+
+term = sys.argv[1] if len(sys.argv) > 1 else '19T1'
+
 
 
 query1 = '''select m.start_time, m.end_time, r.id as room_id, LEFT(m.weeks_binary, 10)
@@ -68,7 +69,6 @@ for start_time, end_time, room_id, weeks_binary in cur.fetchall():
             weeksCount += 1
     print("weeksCount is {}".format(weeksCount))
     if room_id not in roomDictionary:
-        totalRooms += 1
         roomDictionary[room_id] = hours * weeksCount
     else:
         roomDictionary[room_id] += hours * weeksCount
@@ -93,9 +93,6 @@ except Exception as e:
 
 totalRooms = cur.fetchall()[0]
 
-
-
-
-print("{}%".format(round((100 * (totalRooms - usedRooms)/totalRooms), 1)))
+print("{}%".format(round((100 * (totalRooms[0] - usedRooms)/totalRooms[0]), 1)))
 
 conn.close()
