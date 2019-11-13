@@ -6,6 +6,19 @@ term = sys.argv[1] if len(sys.argv) > 1 else 1
 if (int(term) < 1 or int(term) > 3):
     term = 1
 
+def getHours(start,end):
+    hours = 0
+    if (start[-2] == '3'):
+        hours += 0.5
+        int(start) += 70
+    elif (end[-2] == '3'):
+        hours += 0.5
+        int(end) -= 30
+
+    hours += ((int(end) - int(start)) / 100)
+
+
+
 
 if (term == 1): 
     term = '19T1'
@@ -14,7 +27,7 @@ elif term == 2:
 elif term == 3:
     term = '19T3'
 
-query1 = '''select m.start_time, m.end_time, r.id as room_id, m.weeks_binary
+query1 = '''select m.start_time, m.end_time, r.id as room_id, LEFT(m.weeks_binary,10)
 from meetings m join rooms r on (r.id = m.room_id) 
 join classes cl on (cl.id = m.class_id)
 join courses c on (c.id = cl.course_id)
@@ -51,7 +64,8 @@ numWeeks = 10
 roomDictionary = {}
 for start_time, end_time, room_id, weeks_binary in cur.fetchall():
     weeksCount = 0
-    hours = float(end_time) - float(start_time) / 100
+    hours = getHours(start_time, end_time)
+
     print("hours is {}".format(hours))
     print("weeks_binary is {}".format(weeks_binary))
     for used in weeks_binary:
