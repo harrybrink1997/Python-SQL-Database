@@ -14,13 +14,23 @@ elif term == 2:
 elif term == 3:
     term = '19T3'
 
-query1 = '''select (m.end_time::float - m.start_time::float)/100 as hours, r.id as room_id, m.weeks_binary
+query1 = '''select m.start_time, m.end_time, r.id as room_id, m.weeks_binary
 from meetings m join rooms r on (r.id = m.room_id) 
 join classes cl on (cl.id = m.class_id)
 join courses c on (c.id = cl.course_id)
 join terms t on (t.id = c.term_id)
 where t.name like '{}'
-and r.code like 'K%';'''.format(term)
+and r.code like 'K-%';'''.format(term)
+
+print("{}".format(query1))
+
+# select m.start_time, m.end_time, r.id as room_id, m.weeks_binary
+# from meetings m join rooms r on (r.id = m.room_id) 
+# join classes cl on (cl.id = m.class_id)
+# join courses c on (c.id = cl.course_id)
+# join terms t on (t.id = c.term_id)
+# where t.name like '19T1'
+# and r.code like 'K-%';
 
 try:
     conn = psycopg2.connect("dbname='a3'")
@@ -37,25 +47,28 @@ except Exception as e:
     print (e)
 
 unusedRooms = 0
+totalRooms = 0
 numWeeks = 10
 roomDictionary = {}
-for hours, room_id, weeks_binary in cur.fetchall():
+for start_time, end_time, room_id, weeks_binary in cur.fetchall():
     weeksCount = 0
+    hours = float(end_time) - float(start_time) / 100
     for used in weeks_binary:
         if used == '1':
             weeksCount += 1
 
     if room_id not in roomDictionary:
+        totalRooms += 1
         roomDictionary[room_id] = hours * weeksCount
     else:
         roomDictionary[room_id] += hours * weeksCount
 
+
 for room in roomDictionary:
-    totalRooms += 1
     if roomDictionary[room] / numWeeks < 20:
         unusedRooms += 1
 
-print("{}%".format(round((unusedRooms/totalRooms), 1)))
+print("{}%".format(round((100 * unusedRooms/totalRooms), 1)))
 
        
 
