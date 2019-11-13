@@ -52,7 +52,6 @@ except Exception as e:
     print (e)
 
 unusedRooms = 0
-totalRooms = 0
 numWeeks = 10
 roomDictionary = {}
 for start_time, end_time, room_id, weeks_binary in cur.fetchall():
@@ -78,7 +77,25 @@ for room in roomDictionary:
     if roomDictionary[room] / numWeeks < 20:
         unusedRooms += 1
 
+
+
+query2 = '''select count(r.id) 
+from rooms r 
+where r.code like 'K-%'
+group by r.id;'''
+
+
+try:
+    cur.execute(query2)
+except Exception as e:
+    print("Error selecting from table2")
+    print (e)
+
+totalRooms = cur.fetchall()[0]
+
+
 print("{}%".format(round((100 * unusedRooms/totalRooms), 1)))
+
 
        
 
