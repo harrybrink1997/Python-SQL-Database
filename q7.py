@@ -8,14 +8,17 @@ if (int(term) < 1 or int(term) > 3):
 
 def getHours(start,end):
     hours = 0
+    intStart = int(start)
+    intEnd = int(end)
     if (start[-2] == '3'):
         hours += 0.5
-        int(start) += 70
+        intStart += 70
     elif (end[-2] == '3'):
         hours += 0.5
-        int(end) -= 30
+        intEnd -= 30
 
-    hours += ((int(end) - int(start)) / 100)
+    hours += ((intEnd - intStart) / 100)
+    return hours
 
 
 
