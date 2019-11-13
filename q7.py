@@ -73,16 +73,16 @@ for start_time, end_time, room_id, weeks_binary in cur.fetchall():
     else:
         roomDictionary[room_id] += hours * weeksCount
 
+usedRooms = 0
 for room in roomDictionary:
-    if roomDictionary[room] / numWeeks < 20:
-        unusedRooms += 1
+    if roomDictionary[room] / numWeeks > 20:
+        usedRooms += 1
 
 
 
 query2 = '''select count(r.id) 
 from rooms r 
-where r.code like 'K-%'
-group by r.id;'''
+where r.code like 'K-%';'''
 
 
 try:
@@ -94,9 +94,8 @@ except Exception as e:
 totalRooms = cur.fetchall()[0]
 
 
-print("{}%".format(round((100 * unusedRooms/totalRooms), 1)))
 
 
-       
+print("{}%".format(round((100 * (totalRooms - usedRooms)/totalRooms), 1)))
 
 conn.close()
