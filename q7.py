@@ -22,7 +22,6 @@ join terms t on (t.id = c.term_id)
 where t.name like '{}'
 and r.code like 'K-%';'''.format(term)
 
-print("{}".format(query1))
 
 # select m.start_time, m.end_time, r.id as room_id, m.weeks_binary
 # from meetings m join rooms r on (r.id = m.room_id) 
@@ -53,16 +52,19 @@ roomDictionary = {}
 for start_time, end_time, room_id, weeks_binary in cur.fetchall():
     weeksCount = 0
     hours = float(end_time) - float(start_time) / 100
+    print("hours is {}".format(hours))
+    print("weeks_binary is {}".format(weeks_binary))
     for used in weeks_binary:
         if used == '1':
             weeksCount += 1
-
+    print("weeksCount is {}".format(weeksCount))
     if room_id not in roomDictionary:
         totalRooms += 1
         roomDictionary[room_id] = hours * weeksCount
+        print("roomDictionary[room_id] is {}".format(roomDictionary[room_id]))
     else:
         roomDictionary[room_id] += hours * weeksCount
-
+        print("roomDictionary[room_id] is {}".format(roomDictionary[room_id]))
 
 for room in roomDictionary:
     if roomDictionary[room] / numWeeks < 20:
