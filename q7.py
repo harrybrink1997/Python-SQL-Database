@@ -6,24 +6,20 @@ term = sys.argv[1] if len(sys.argv) > 1 else 1
 if (int(term) < 1 or int(term) > 3):
     term = 1
 
-# def getHours(start,end):
-#     hours = 0
+def getHours(start,end):
+    hours = 0
+    strStart = str(start)
+    strEnd = str(end)
 
+    if (strStart[-2] == '3'):
+        hours += 0.5
+        start += 70
+    elif (strEnd[-2] == '3'):
+        hours += 0.5
+        end -= 30
 
-#     if (start[-2] == '3'):
-#         hours += 0.5
-#         intStart = int(start)
-#         intStart += 70
-#     elif (end[-2] == '3'):
-#         hours += 0.5
-#         intEnd = int(end)
-#         intEnd -= 30
-#     else:
-#         intStart = int(start)
-#         intEnd = int(end)
-
-#     hours += ((intEnd - intStart) / 100)
-#     return hours
+    hours += ((end - start) / 100)
+    return hours
 
 
 
@@ -72,9 +68,7 @@ numWeeks = 10
 roomDictionary = {}
 for start_time, end_time, room_id, weeks_binary in cur.fetchall():
     weeksCount = 0
-    # hours = getHours(start_time, end_time)
-    hours = end_time - start_time
-    print("{}".format(type(start_time)))
+    hours = getHours(start_time, end_time)
 
     print("hours is {}".format(hours))
     print("weeks_binary is {}".format(weeks_binary))
