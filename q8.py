@@ -22,7 +22,7 @@ for subject in range(len(subjectsArray)):
         where t.name like '{}'
         and r.code like 'K-%'
         and s.code like '{}'
-        order by ct.name, m.day, m.start_time;'''.format(term,subjects[subject])
+        order by ct.name, m.day, m.start_time;'''.format(term,subjectsArray[subject])
     ) 
 
 
@@ -65,19 +65,18 @@ for i in range(len(classesQuery)):
             currSubject[classtype] = {}
             currClassType = currSubject[classtype]
             currClassType[tag] = { 
-                "day": day, "start": start_time, "end": end_time
+                'day': day, 'start': start_time, 'end': end_time
             }
         else:
             currClassType = currSubject[classtype]
             currClassType[tag] = { 
-                "day": day, "start": start_time, "end": end_time
+                'day': day, 'start': start_time, 'end': end_time
             }
-
-timeTables = {}
-for courses in subjectClasses:
-    addClasses(subjectClasses.get(courses)["Lectures"])
+        print(subjectClasses)
 
 
+
+conn.close()
 
 def overLap(start1, end1, start2, end2):
     return False
@@ -91,9 +90,12 @@ def hoursInDay():
 def addClasses(classesDict):
     print(classesDict)
 
+# timeTables = {}
+# for courses in subjectClasses:
+#     addClasses(subjectClasses.get(courses).get('Lectures'))
 
 
 
 
 
-conn.close()
+
