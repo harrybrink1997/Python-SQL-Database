@@ -49,10 +49,10 @@ numWeeks = 10
 roomDictionary = {}
 for start_time, end_time, room_id, weeks_binary in cur.fetchall():
     weeksCount = 0
-    #hours = getHours(start_time, end_time)
-    hours = 0
-    if (len(str(start_time)) <= 3):
-        print(start_time)
+    if start_time == 0 or end_time == 0:
+        hours = 0;
+    else:
+        hours = getHours(start_time, end_time)
 
     for used in weeks_binary:
         if used == '1':
