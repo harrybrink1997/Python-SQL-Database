@@ -59,11 +59,6 @@ for start_time, end_time, room_id, weeks_binary in cur.fetchall():
     weeksCount = 0
     hours = getHours(start_time, end_time)
 
-    print("hours is {}".format(hours))
-    print("start is {}".format(start_time))
-    print("end is {}".format(end_time))
-    print("weeks_binary is {}".format(weeks_binary))
-
     for used in weeks_binary:
         if used == '1':
             weeksCount += 1
@@ -92,6 +87,9 @@ except Exception as e:
     print (e)
 
 totalRooms = cur.fetchall()[0]
+
+print("Unused rooms: {}".format(totalRooms[0] - usedRooms))
+print("Total rooms: {}".format(totalRooms[0]))
 
 print("{}%".format(round((100 * (totalRooms[0] - usedRooms)/totalRooms[0]), 1)))
 
