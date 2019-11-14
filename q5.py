@@ -3,7 +3,6 @@ import sys
 
 
 courseName = sys.argv[1] if len(sys.argv) > 1 else "COMP1521"
-courseName = "MATH5305"
 
 query = '''select (100*g.count)::float/cl.quota as percentFull, cl.tag as class_tag, ct.name as class_type
 from subjects s join courses c on (s.id = c.subject_id)
