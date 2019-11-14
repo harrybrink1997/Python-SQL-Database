@@ -50,7 +50,7 @@ roomDictionary = {}
 for start_time, end_time, room_id, weeks_binary in cur.fetchall():
     weeksCount = 0
     if start_time == 0 or end_time == 0:
-        hours = 0;
+        hours = 0
     else:
         hours = getHours(start_time, end_time)
 

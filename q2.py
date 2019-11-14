@@ -66,7 +66,7 @@ for numbers, count, letters, _ignore in cur.fetchall():
         print('{}: '.format(courseNumbers), end = ""),
 
         for i in range(len(sortedCourses)):
-            if i == len(sortedCourses) - 1
+            if i == len(sortedCourses) - 1:
                 print('{}'.format(sortedCourses[i]), end = "" ),
             else:
                 print('{} '.format(sortedCourses[i]), end = "" ),
