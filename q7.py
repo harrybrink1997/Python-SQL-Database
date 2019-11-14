@@ -29,14 +29,6 @@ join rooms r on (r.id = m.room_id)
 where t.name like '{}'
 and r.code like 'K-%';'''.format(term)
 
-# '''select m.start_time, m.end_time, r.id as room_id, LEFT(m.weeks_binary,10)
-# from meetings m join rooms r on (r.id = m.room_id) 
-# join classes cl on (cl.id = m.class_id)
-# join courses c on (c.id = cl.course_id)
-# join terms t on (t.id = c.term_id)
-# where t.name like '{}'
-# and r.code like 'K-%';'''.format(term)
-
 
 try:
     conn = psycopg2.connect("dbname='a3'")
@@ -57,12 +49,14 @@ numWeeks = 10
 roomDictionary = {}
 for start_time, end_time, room_id, weeks_binary in cur.fetchall():
     weeksCount = 0
-    hours = getHours(start_time, end_time)
+    #hours = getHours(start_time, end_time)
+    hours = 0
+    if (len(str(start_time)) <= 3):
+        print(start_time)
 
     for used in weeks_binary:
         if used == '1':
             weeksCount += 1
-    print("weeksCount is {}".format(weeksCount))
     if room_id not in roomDictionary:
         roomDictionary[room_id] = hours * weeksCount
     else:
@@ -70,7 +64,7 @@ for start_time, end_time, room_id, weeks_binary in cur.fetchall():
 
 usedRooms = 0
 for room in roomDictionary:
-    if roomDictionary[room] / numWeeks > 20:
+    if roomDictionary[room] / numWeeks >= 20:
         usedRooms += 1
 
 
