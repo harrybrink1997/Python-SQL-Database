@@ -36,7 +36,7 @@ for subject in range(len(subjectsArray)):
 # join rooms r on (r.id = m.room_id)
 # where t.name like '19T1'
 # and r.code like 'K-%'
-# and s.code like 'MATH1081'
+# and s.code like 'COMP1511'
 # order by ct.name, m.day, m.start_time;
 
 try:
@@ -61,6 +61,9 @@ for i in range(len(classesQuery)):
 
     for code, classtype, day, tag, start_time, end_time in cur.fetchall():
         
+        if (classtype == 'Lecture'):
+            print(tag)
+
         if classtype not in currSubject:
             currSubject[classtype] = {}
             currClassType = currSubject[classtype]
@@ -72,7 +75,8 @@ for i in range(len(classesQuery)):
             currClassType[tag] = { 
                 'day': day, 'start': start_time, 'end': end_time
             }
-        print(subjectClasses)
+
+print(subjectClasses.get('COMP1511').get('Lecture'))
 
 
 
