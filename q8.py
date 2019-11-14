@@ -61,22 +61,17 @@ for i in range(len(classesQuery)):
 
     for code, classtype, day, tag, start_time, end_time in cur.fetchall():
         
-        if (classtype == 'Lecture'):
-            print(tag)
-
         if classtype not in currSubject:
-            currSubject[classtype] = {}
+            currSubject[classtype] = []
             currClassType = currSubject[classtype]
-            currClassType[tag] = { 
-                'day': day, 'start': start_time, 'end': end_time
-            }
+            currClassType.append({ 
+                'tag': tag, 'day': day, 'start': start_time, 'end': end_time
+            })
         elif classtype in currSubject:
-            if (classtype == 'Lecture'):
-                print("going into correct loop")
             currClassType = currSubject[classtype]
-            currClassType[tag] = { 
-                'day': day, 'start': start_time, 'end': end_time
-            }
+            currClassType.append({ 
+                'tag': tag, 'day': day, 'start': start_time, 'end': end_time
+            })
 
 print(subjectClasses.get('COMP1511').get('Lecture'))
 
