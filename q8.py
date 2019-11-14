@@ -70,7 +70,9 @@ for i in range(len(classesQuery)):
             currClassType[tag] = { 
                 'day': day, 'start': start_time, 'end': end_time
             }
-        else:
+        elif classtype in currSubject:
+            if (classtype == 'Lecture'):
+                print("going into correct loop")
             currClassType = currSubject[classtype]
             currClassType[tag] = { 
                 'day': day, 'start': start_time, 'end': end_time
