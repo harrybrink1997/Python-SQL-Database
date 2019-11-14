@@ -82,9 +82,6 @@ except Exception as e:
 
 totalRooms = cur.fetchall()[0]
 
-print("Unused rooms: {}".format(totalRooms[0] - usedRooms))
-print("Total rooms: {}".format(totalRooms[0]))
-
 print("{}%".format(round((100 * (totalRooms[0] - usedRooms)/totalRooms[0]), 1)))
 
 conn.close()

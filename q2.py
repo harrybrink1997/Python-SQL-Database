@@ -52,7 +52,6 @@ except Exception as e:
     print("Error selecting from table")
     print (e)
 
-numCourses = 8
 checker = 1
 courses = []
 for numbers, count, letters, _ignore in cur.fetchall():
