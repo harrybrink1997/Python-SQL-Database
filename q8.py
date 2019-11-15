@@ -145,7 +145,7 @@ def totalHoursDaysTravel(OSched):
     return (timeSpentAtUni + travelTime)
 
 
-def determineIfOptimised(OSched)
+def determineIfOptimised(OSched):
     global lowestTimeTableCost
     global optimisedTT
 
@@ -271,7 +271,7 @@ def findLectures(course, courseClasses):
 def addLectures(lecStreamAsc, OSched, courseClasses):
     if (len(lecStreamAsc) == 0): 
         addClasses(courseClasses, OSched, list(courseClasses.keys()))
-        return;
+        return
 
     # Run thourgh all the lecture slots.
     lecStreamAsc = copy.deepcopy(lecStreamAsc)
@@ -323,7 +323,10 @@ def generateTermTT(courseClasses):
     lectures = []  
     for subject in courseClasses.items():
         lectureStreams = 0
-        if courseClasses.get(subject).get('Web Stream') is not None:
+        courseSubjects = courseClasses.get(subject)
+        webStream = 'Web Stream'
+        if webStream in courseSubjects:
+        # courseClasses.get(subject).get('Web Stream') is not None:
             lectureStreams = 0
             courseClasses.get(subject).pop('Web Stream')
         else: 
