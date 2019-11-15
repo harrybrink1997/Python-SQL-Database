@@ -113,7 +113,7 @@ def overLappingEvents(event1, event2):
 
 
 def addToTT(type, classes, OSched):
-    print(classes)
+    print("input into addtt function: {}".format(classes))
     day = classes.get('day')
 
     if day in OSched:
@@ -309,7 +309,7 @@ def addLectures(lecStreamAsc, OSched, courseClasses):
         lecturesToAdd.sort(key=operator.itemgetter('day'))
         for lecture in lecturesToAdd:
             opitmalSched = copy.deepcopy(OSched)
-            print(lecture)
+            print("single lecture in for loop: {}".foramt(lecture))
             if addToTT('Lecture', lecture, OSched) == True:
                 global lowestTimeTableCost
                 if (lowestTimeTableCost is not None and totalHoursDaysTravel(opitmalSched) > lowestTimeTableCost):
