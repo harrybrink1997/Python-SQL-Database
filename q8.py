@@ -108,10 +108,11 @@ def overLappingEvents(event1, event2):
         return True
 # only takes single dictionary objects not arrays. 
 def addToTT(type, classes, OSched):
-    
+    print(classes)
     for meeting in classes:
-        day = meeting.get('day')
         print(meeting)
+        day = meeting.get('day')
+
         if day not in OSched:
             continue
         else:
@@ -288,9 +289,9 @@ def addLectures(lecStreamAsc, OSched, courseClasses):
         lecturesToAdd.sort(key=operator.itemgetter('day'))
         for lecture in lecturesToAdd:
             opitmalSched = copy.deepcopy(OSched)
+            print(lecture)
             if addToTT('Lecture', lecture, OSched) == True:
                 global lowestTimeTableCost
-
                 if (lowestTimeTableCost is not None and totalHoursDaysTravel(opitmalSched) > lowestTimeTableCost):
                     continue
                 else:
