@@ -291,10 +291,11 @@ def addLectures(lecStreamAsc, OSched, courseClasses):
             opitmalSched = copy.deepcopy(OSched)
             if addToTT('Lecture', lecture, OSched) == True:
                 global lowestTimeTableCost
-                if (lowestTimeTableCost is not None and totalHoursDaysTravel(opitmalSched) > lowestTimeTableCost):
-                    continue
-                else:
-                    addLectures(lecStreamAsc, OSched, courseClasses)
+                print(lecturesToAdd)
+                # if (lowestTimeTableCost is not None and totalHoursDaysTravel(opitmalSched) > lowestTimeTableCost):
+                #     continue
+                # else:
+                #     addLectures(lecStreamAsc, OSched, courseClasses)
             else:
                 continue
 
