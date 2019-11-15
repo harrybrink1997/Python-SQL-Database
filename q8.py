@@ -111,7 +111,7 @@ def addToTT(type, classes, OSched):
     
     for meeting in classes:
         day = meeting.get('day')
-
+        print(meeting)
         if day not in OSched:
             continue
         else:
@@ -286,18 +286,17 @@ def addLectures(lecStreamAsc, OSched, courseClasses):
     else:
         lecturesToAdd = findLectures(course, courseClasses)
         lecturesToAdd.sort(key=operator.itemgetter('day'))
-        print(lecturesToAdd)
-        # for lecture in lecturesToAdd:
-        #     opitmalSched = copy.deepcopy(OSched)
-        #     if addToTT('Lecture', lecture, OSched) == True:
-        #         global lowestTimeTableCost
+        for lecture in lecturesToAdd:
+            opitmalSched = copy.deepcopy(OSched)
+            if addToTT('Lecture', lecture, OSched) == True:
+                global lowestTimeTableCost
 
-        #         if (lowestTimeTableCost is not None and totalHoursDaysTravel(opitmalSched) > lowestTimeTableCost):
-        #             continue
-        #         else:
-        #             addLectures(lecStreamAsc, OSched, courseClasses)
-        #     else:
-        #         continue
+                if (lowestTimeTableCost is not None and totalHoursDaysTravel(opitmalSched) > lowestTimeTableCost):
+                    continue
+                else:
+                    addLectures(lecStreamAsc, OSched, courseClasses)
+            else:
+                continue
 
 def getDayofWeek(day):
     days = {
