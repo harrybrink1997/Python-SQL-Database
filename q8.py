@@ -3,16 +3,19 @@ import sys
 import copy
 import operator
 
-#Global variables
+# Global variables
 
 optimisedTT = []
 lowestTimeTableCost = None
 
 # Generate the queries for each course to call.
+
+
 def GetTimeTableQueries(subjectsArray):
     classesQuery = []
     for subject in range(len(subjectsArray)):
-        classesQuery.append( '''select s.code, ct.name, m.day, cl.tag, m.start_time, m.end_time from courses c join terms t on (c.term_id = t.id) join subjects s on (s.id = c.subject_id) join classes cl on (cl.course_id = c.id) join classtypes ct on (ct.id = cl.type_id) join meetings m on (cl.id = m.class_id) join rooms r on (r.id = m.room_id)where t.name like '19T1' and r.code like 'K-%' and s.code like '{}'order by ct.name, m.day, m.start_time;'''.format(subjectsArray[subject]))
+        classesQuery.append(
+            '''select s.code, ct.name, m.day, cl.tag, m.start_time, m.end_time from courses c join terms t on (c.term_id = t.id) join subjects s on (s.id = c.subject_id) join classes cl on (cl.course_id = c.id) join classtypes ct on (ct.id = cl.type_id) join meetings m on (cl.id = m.class_id) join rooms r on (r.id = m.room_id)where t.name like '19T1' and r.code like 'K-%' and s.code like '{}'order by ct.name, m.day, m.start_time;'''.format(subjectsArray[subject]))
 
     return classesQuery
 
@@ -27,20 +30,19 @@ def queryClassTT(classesQuery):
 
     cur = conn.cursor()
 
-
     subjectClasses = {}
     for i in range(len(classesQuery)):
         try:
             cur.execute(classesQuery[i])
         except Exception as e:
             print("Error selecting from table2")
-            print (e)
+            print(e)
 
         subjectClasses[subjectsArray[i]] = {}
         currSubject = subjectClasses[subjectsArray[i]]
 
         for code, classtype, day, tag, start_time, end_time in cur.fetchall():
-            day = getDayofWeek(day) # Converts days into number for sorting.
+            day = getDayofWeek(day)  # Converts days into number for sorting.
             if classtype not in currSubject:
 
                 if classtype == 'Web Stream':
@@ -48,12 +50,12 @@ def queryClassTT(classesQuery):
                 else:
                     currSubject[classtype] = []
                     currClassType = currSubject[classtype]
-                    currClassType.append({ 
+                    currClassType.append({
                         'tag': tag, 'day': day, 'start': start_time, 'end': end_time
                     })
             elif classtype in currSubject:
                 currClassType = currSubject[classtype]
-                currClassType.append({ 
+                currClassType.append({
                     'tag': tag, 'day': day, 'start': start_time, 'end': end_time
                 })
 
@@ -63,11 +65,12 @@ def queryClassTT(classesQuery):
 
 def daysAtUni(OSched):
     totalDays = 0
-    
+
     for days in OSched:
         totalDays += 1
 
     return totalDays
+
 
 def hoursInDay(coursesInDay):
     minTime = None
@@ -82,7 +85,7 @@ def hoursInDay(coursesInDay):
                 minTime = subject.get('start')
 
             if subject.get('end') > maxTime:
-                maxTime = subject.get('end') 
+                maxTime = subject.get('end')
 
     totalTime = 0
     strMinTime = str(minTime)
@@ -93,7 +96,7 @@ def hoursInDay(coursesInDay):
 
     if (strMaxTime[-2] == '3'):
         totalTime -= 0.5
-        strMaxTime[-2] = '0'       
+        strMaxTime[-2] = '0'
 
     minTime = int(strMinTime)
     maxTime = int(strMaxTime)
@@ -106,22 +109,34 @@ def hoursInDay(coursesInDay):
 def overLappingEvents(event1, event2):
     if event1.get('start') < event2.get('end') and event2.get('start') < event1.get('end'):
         return True
-# only takes single dictionary objects not arrays. 
+# only takes single dictionary objects not arrays.
+
+
 def addToTT(type, classes, OSched):
     print(classes)
-    for meeting in classes:
-        print(meeting)
-        day = meeting.get('day')
+    day = classes.get('day')
 
-        if day not in OSched:
-            continue
-        else:
-            targetDay = OSched[day]
-            for event in targetDay:
-                if overLappingEvents(targetDay, event) == True:
-                    return False
-                else:
-                    continue
+    if day in OSched:
+        targetDay = OSched[day]
+        for event in targetDay:
+            if overLappingEvents(targetDay, event) == True:
+                return False
+            else:
+                continue
+
+    # for meeting in classes:
+    #     print(meeting)
+    #     day = meeting.get('day')
+
+    #     if day not in OSched:
+    #         continue
+    #     else:
+    #         targetDay = OSched[day]
+    #         for event in targetDay:
+    #             if overLappingEvents(targetDay, event) == True:
+    #                 return False
+    #             else:
+    #                 continue
 
     if day not in OSched:
         OSched[day] = []
@@ -133,7 +148,7 @@ def addToTT(type, classes, OSched):
 
 
 def totalHoursDaysTravel(OSched):
-    
+
     totalDays = daysAtUni(OSched)
     travelTime = totalDays * 2
     timeSpentAtUni = 0
@@ -158,11 +173,12 @@ def determineIfOptimised(OSched):
         optimisedTT = [OSched]
     elif currCost == lowestTimeTableCost:
         optimisedTT.append(OSched)
-    
+
     return
 
+
 def addClasses(courseClasses, OSched, remaining):
-    
+
     courseClassTypes = []
 
     if (len(remaining) > 1):
@@ -182,7 +198,8 @@ def addClasses(courseClasses, OSched, remaining):
     for classtypes in targetCourseObj:
         if (classtypes != 'Lecture'):
             CTSelection.append(classtypes)
-    selectCourseClasses(courseClasses,OSched, targetCourse, CTSelection, remaining)
+    selectCourseClasses(courseClasses, OSched,
+                        targetCourse, CTSelection, remaining)
 
 
 def altDayClasses(OSched, classArray):
@@ -193,7 +210,8 @@ def altDayClasses(OSched, classArray):
             if classes.get('day') != day:
                 classes.append(classes)
 
-    return sorted(classes, key = lambda i: (i['day'], i['start']))
+    return sorted(classes, key=lambda i: (i['day'], i['start']))
+
 
 def sameDayClasses(OSched, classArray):
     classes = []
@@ -203,9 +221,7 @@ def sameDayClasses(OSched, classArray):
             if classes.get('day') == day:
                 classes.append(classes)
 
-    return sorted(classes, key = lambda i: (i['day'], i['start']))
-
-
+    return sorted(classes, key=lambda i: (i['day'], i['start']))
 
 
 def selectCourseClasses(courseClasses, OSched, course, types, remaining):
@@ -236,8 +252,8 @@ def selectCourseClasses(courseClasses, OSched, course, types, remaining):
             if (len(types) == 0):
                 addClasses(courseClasses, OSched, remaining)
             else:
-                selectCourseClasses(courseClasses, OSched, course, types, remaining)
-
+                selectCourseClasses(courseClasses, OSched,
+                                    course, types, remaining)
 
 
 def lectureEntriesIdentical(lec1, lec2):
@@ -245,6 +261,7 @@ def lectureEntriesIdentical(lec1, lec2):
         return True
 
     return False
+
 
 def lectureSelected(lec, courseLectures):
     if len(courseLectures) == 0:
@@ -256,19 +273,20 @@ def lectureSelected(lec, courseLectures):
 
     return False
 
+
 def findLectures(course, courseClasses):
     courseLectures = courseClasses.get(course).get('Lecture')
     lectureSlots = []
 
     for lecture in courseLectures:
-         if lectureSelected(lecture, lectureSlots) == False:
-             lectureSlots.append(lecture)
+        if lectureSelected(lecture, lectureSlots) == False:
+            lectureSlots.append(lecture)
 
     return lectureSlots
 
 
 def addLectures(lecStreamAsc, OSched, courseClasses):
-    if (len(lecStreamAsc) == 0): 
+    if (len(lecStreamAsc) == 0):
         addClasses(courseClasses, OSched, list(courseClasses.keys()))
         return
 
@@ -285,7 +303,9 @@ def addLectures(lecStreamAsc, OSched, courseClasses):
         addToTT('Lecture', lectureToAdd, OSched)
         addLectures(lecStreamAsc, OSched, courseClasses)
     else:
+
         lecturesToAdd = findLectures(course, courseClasses)
+        print("lectures to add: {}".format(lecturesToAdd))
         lecturesToAdd.sort(key=operator.itemgetter('day'))
         for lecture in lecturesToAdd:
             opitmalSched = copy.deepcopy(OSched)
@@ -299,6 +319,7 @@ def addLectures(lecStreamAsc, OSched, courseClasses):
             else:
                 continue
 
+
 def getDayofWeek(day):
     days = {
         "Mon": 1,
@@ -311,26 +332,27 @@ def getDayofWeek(day):
     return days[day]
 
 
-
 def numLectureStreams(lectureArray):
     streams = []
     for i in lectureArray:
         if i.get('tag') not in streams:
             streams.append(i.get('tag'))
-    
+
     return len(streams)
+
 
 def generateTermTT(courseClasses):
     OSched = {}
-    lectures = []  
+    lectures = []
     for subject in courseClasses:
         lectureStreams = 0
 
         if 'Web Stream' in courseClasses.get(subject):
             lectureStreams = 0
             courseClasses.get(subject).pop('Web Stream')
-        else: 
-            lectureStreams = numLectureStreams(courseClasses.get(subject).get('Lecture'))
+        else:
+            lectureStreams = numLectureStreams(
+                courseClasses.get(subject).get('Lecture'))
 
         lectures.append({
             "course": subject,
@@ -338,17 +360,16 @@ def generateTermTT(courseClasses):
         })
 
     # lecStreamAsc = lectures.sort(key=operator.itemgetter('numStreams'), reverse=False)
-    lecStreamAsc = sorted(lectures, key = lambda i: (i['numStreams']))
+    lecStreamAsc = sorted(lectures, key=lambda i: (i['numStreams']))
     print(lecStreamAsc)
-    
-    
+
     addLectures(lecStreamAsc, OSched, courseClasses)
 
     global optimisedTT
     global lowestTimeTableCost
     print(lowestTimeTableCost)
     print(optimisedTT)
-    
+
 
 if __name__ == "__main__":
 
@@ -360,8 +381,3 @@ if __name__ == "__main__":
     queries = GetTimeTableQueries(subjectsArray)
     courseClasses = queryClassTT(queries)
     generateTermTT(courseClasses)
-
-
-
-
-
