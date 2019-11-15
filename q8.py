@@ -335,17 +335,17 @@ def generateTermTT(courseClasses):
             "numStreams": lectureStreams
         })
 
-        # lecStreamAsc = lectures.sort(key=operator.itemgetter('numStreams'), reverse=False)
-        lecStreamAsc = sorted(classes, key = lambda i: (i['numStreams']))
-        print(lecStreamAsc)
-        
-        
-        addLectures(lecStreamAsc, OSched, courseClasses)
+    # lecStreamAsc = lectures.sort(key=operator.itemgetter('numStreams'), reverse=False)
+    lecStreamAsc = sorted(lectures, key = lambda i: (i['numStreams']))
+    print(lecStreamAsc)
+    
+    
+    addLectures(lecStreamAsc, OSched, courseClasses)
 
-        global optimisedTT
-        global lowestTimeTableCost
-        print(lowestTimeTableCost)
-        print(optimisedTT)
+    global optimisedTT
+    global lowestTimeTableCost
+    print(lowestTimeTableCost)
+    print(optimisedTT)
     
 
 if __name__ == "__main__":
