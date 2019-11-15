@@ -139,8 +139,8 @@ def overLappingEvents(event1, event2):
 
 
 def addToTT(type, classes, OSched, course):
-    print("input into addtt function: {}".format(classes))
-    print("")
+    # print("input into addtt function: {}".format(classes))
+    # print("")
     day = classes.get('day')
 
     if day in OSched:
@@ -355,11 +355,12 @@ def addLectures(lecStreamAsc, OSched, courseClasses):
 def convertDaysToString(num):
     days = {
         "1": "Monday",
-        "2": "Tuesday"
-        "3": "Wednesday"
-        "4": "Thursday"
+        "2": "Tuesday",
+        "3": "Wednesday",
+        "4": "Thursday",
         "5": "Friday"
     }
+    return days[str(num)]
 
 
 def getDayofWeek(day):
@@ -411,8 +412,8 @@ def generateTermTT(courseClasses):
 
     global optimisedTT
     global lowestTimeTableCost
-    for timetable in optimisedTT:
-        printTimeTable(timetable, lowestTimeTableCost)
+    # for timetable in optimisedTT:
+    #     printTimeTable(timetable, lowestTimeTableCost)
 
 
 if __name__ == "__main__":
