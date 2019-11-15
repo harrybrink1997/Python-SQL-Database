@@ -13,21 +13,9 @@ def GetTimeTableQueries(subjectsArray):
     for subject in range(len(subjectsArray)):
         classesQuery = []
 
-        classesQuery.append(
-            '''select s.code, ct.name, m.day, cl.tag, m.start_time, m.end_time
-            from courses c join terms t on (c.term_id = t.id)
-            join subjects s on (s.id = c.subject_id)
-            join classes cl on (cl.course_id = c.id)
-            join classtypes ct on (ct.id = cl.type_id)
-            join meetings m on (cl.id = m.class_id)
-            join rooms r on (r.id = m.room_id)
-            where t.name like '19T1'
-            and r.code like 'K-%'
-            and s.code like '{}'
-            order by ct.name, m.day, m.start_time;'''.format(subjectsArray[subject])
+        classesQuery.append( '''select s.code, ct.name, m.day, cl.tag, m.start_time, m.end_time from courses c join terms t on (c.term_id = t.id) join subjects s on (s.id = c.subject_id) join classes cl on (cl.course_id = c.id) join classtypes ct on (ct.id = cl.type_id) join meetings m on (cl.id = m.class_id) join rooms r on (r.id = m.room_id)where t.name like '19T1' and r.code like 'K-%' and s.code like '{}'order by ct.name, m.day, m.start_time;'''.format(subjectsArray[subject])
         )
-
-    print(classesQuery)
+    print(len(classesQuery))
     return classesQuery
 
 
@@ -67,7 +55,6 @@ def queryClassTT(classesQuery):
                     'tag': tag, 'day': day, 'start': start_time, 'end': end_time
                 })
 
-    print(subjectClasses)
     conn.close()
     return subjectClasses
 
@@ -101,8 +88,9 @@ if __name__ == "__main__":
         subjectsArray = ['COMP1511', 'MATH1131']
 
     queries = GetTimeTableQueries(subjectsArray)
+    print(queries)
     courseClasses = queryClassTT(queries)
-    
+    print(courseClasses)
     # schedule = generateTermTT(courseClasses)
 
 
