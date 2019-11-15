@@ -114,6 +114,7 @@ def overLappingEvents(event1, event2):
 
 def addToTT(type, classes, OSched):
     print("input into addtt function: {}".format(classes))
+    print("")
     day = classes.get('day')
 
     if day in OSched:
@@ -206,23 +207,23 @@ def addClasses(courseClasses, OSched, remaining):
 
 
 def altDayClasses(OSched, classArray):
-    classes = []
+    classesOutput = []
 
     for day in OSched:
         for classes in classArray:
             if classes.get('day') != day:
-                classes.append(classes)
+                classesOutput.append(classes)
 
     return sorted(classes, key=lambda i: (i['day'], i['start']))
 
 
 def sameDayClasses(OSched, classArray):
-    classes = []
+    classesOutput = []
 
     for day in OSched:
         for classes in classArray:
             if classes.get('day') == day:
-                classes.append(classes)
+                classesOutput.append(classes)
 
     return sorted(classes, key=lambda i: (i['day'], i['start']))
 
@@ -233,7 +234,7 @@ def selectCourseClasses(courseClasses, OSched, course, types, remaining):
         return
 
     types = copy.deepcopy(types)
-    targetCT = type.pop()
+    targetCT = types.pop()
 
     courseObject = courseClasses.get(course)
     CTArray = courseObject.get(targetCT)
@@ -337,6 +338,7 @@ def getDayofWeek(day):
 
 
 def numLectureStreams(lectureArray):
+    # TODO this is wrong! i think...
     streams = []
     for i in lectureArray:
         if i.get('tag') not in streams:
