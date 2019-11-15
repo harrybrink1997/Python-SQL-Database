@@ -328,15 +328,18 @@ def generateTermTT(courseClasses):
             lectureStreams = 0
             courseClasses.get(subject).pop('Web Stream')
         else: 
-            lectureStreams = numLectureStreams(courseClasses.get())
+            lectureStreams = numLectureStreams(courseClasses.get(subject).get('Lecture'))
 
         lectures.append({
             "course": subject,
             "numStreams": lectureStreams
         })
 
-        lecStreamAsc = lectures.sort(key=operator.itemgetter('numStreams'), reverse=False)
-
+        # lecStreamAsc = lectures.sort(key=operator.itemgetter('numStreams'), reverse=False)
+        lecStreamAsc = sorted(classes, key = lambda i: (i['numStreams']))
+        print(lecStreamAsc)
+        
+        
         addLectures(lecStreamAsc, OSched, courseClasses)
 
         global optimisedTT
