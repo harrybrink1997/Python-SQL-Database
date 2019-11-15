@@ -321,12 +321,10 @@ def numLectureStreams(lectureArray):
 def generateTermTT(courseClasses):
     OSched = {}
     lectures = []  
-    for subject in courseClasses.items():
+    for subject in courseClasses:
         lectureStreams = 0
-        courseSubjects = courseClasses.get(subject)
-        webStream = 'Web Stream'
-        if webStream in courseSubjects:
-        # courseClasses.get(subject).get('Web Stream') is not None:
+
+        if 'Web Stream' in courseClasses.get(subject):
             lectureStreams = 0
             courseClasses.get(subject).pop('Web Stream')
         else: 
