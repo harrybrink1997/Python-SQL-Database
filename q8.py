@@ -20,6 +20,32 @@ def GetTimeTableQueries(subjectsArray):
     return classesQuery
 
 
+def printTimeTable(optimisedTT, lowestTimeTableCost):
+    print("")
+    print("Printing formatted timetable")
+
+    print("Total hours: {}".format(round(lowestTimeTableCost, 1)))
+
+    for day in optimisedTT:
+        dayToPrint = convertDaysToString(day)
+        dayClasses = optimisedTT[day]
+
+        print("  {}".format(dayToPrint))
+
+        for subjects in dayClasses:
+            course = subjects.get('course')
+            classtype = subjects.get('classtype')
+            startTime = subjects.get('start')
+            endTime = subjects.get('end')
+            print("    {} {}: {}-{}".format(course, classtype, startTime, endTime))
+
+    print("")
+    print("default printing")
+    print("")
+    print(lowestTimeTableCost)
+    print(optimisedTT)
+
+
 def queryClassTT(classesQuery):
 
     try:
@@ -112,7 +138,7 @@ def overLappingEvents(event1, event2):
 # only takes single dictionary objects not arrays.
 
 
-def addToTT(type, classes, OSched):
+def addToTT(type, classes, OSched, course):
     print("input into addtt function: {}".format(classes))
     print("")
     day = classes.get('day')
@@ -140,6 +166,7 @@ def addToTT(type, classes, OSched):
     #                 continue
 
     classes['classtype'] = type
+    classes['course'] = course
     if day not in OSched:
         OSched[day] = []
         day = OSched[day]
@@ -246,7 +273,7 @@ def selectCourseClasses(courseClasses, OSched, course, types, remaining):
     for classes in availCourseClasses:
         currOptSched = copy.deepcopy(OSched)
 
-        if (addToTT(targetCT, classes, OSched) == True):
+        if (addToTT(targetCT, classes, OSched, course) == True):
             currCost = totalHoursDaysTravel(currOptSched)
             global lowestTimeTableCost
 
@@ -304,7 +331,7 @@ def addLectures(lecStreamAsc, OSched, courseClasses):
         addLectures(lecStreamAsc, OSched, courseClasses)
     elif (numStreams == 1):
         lectureToAdd = findLectures(course, courseClasses)
-        addToTT('Lecture', lectureToAdd, OSched)
+        addToTT('Lecture', lectureToAdd, OSched, course)
         addLectures(lecStreamAsc, OSched, courseClasses)
     else:
 
@@ -315,7 +342,7 @@ def addLectures(lecStreamAsc, OSched, courseClasses):
         lecturesToAdd.sort(key=operator.itemgetter('day'))
         for lecture in lecturesToAdd:
             opitmalSched = copy.deepcopy(OSched)
-            if addToTT('Lecture', lecture, OSched) == True:
+            if addToTT('Lecture', lecture, OSched, course) == True:
                 global lowestTimeTableCost
                 if (lowestTimeTableCost is not None and totalHoursDaysTravel(opitmalSched) > lowestTimeTableCost):
                     continue
@@ -323,6 +350,16 @@ def addLectures(lecStreamAsc, OSched, courseClasses):
                     addLectures(lecStreamAsc, OSched, courseClasses)
             else:
                 continue
+
+
+def convertDaysToString(num):
+    days = {
+        "1": "Monday",
+        "2": "Tuesday"
+        "3": "Wednesday"
+        "4": "Thursday"
+        "5": "Friday"
+    }
 
 
 def getDayofWeek(day):
@@ -374,8 +411,8 @@ def generateTermTT(courseClasses):
 
     global optimisedTT
     global lowestTimeTableCost
-    print(lowestTimeTableCost)
-    print(optimisedTT)
+    for timetable in optimisedTT:
+        printTimeTable(timetable, lowestTimeTableCost)
 
 
 if __name__ == "__main__":
