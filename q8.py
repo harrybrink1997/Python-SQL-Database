@@ -138,11 +138,14 @@ def addToTT(type, classes, OSched):
     #             else:
     #                 continue
 
+    classes['classtype'] = type
     if day not in OSched:
         OSched[day] = []
-        OSched[type].append(classes)
+        day = OSched[day]
+        day.append(classes)
     else:
-        OSched[type].append(classes)
+        day = OSched[day]
+        day.append(classes)
 
     return True
 
@@ -305,11 +308,12 @@ def addLectures(lecStreamAsc, OSched, courseClasses):
     else:
 
         lecturesToAdd = findLectures(course, courseClasses)
+        # not working bringing out everything. TODO
         print("lectures to add: {}".format(lecturesToAdd))
+        print("")
         lecturesToAdd.sort(key=operator.itemgetter('day'))
         for lecture in lecturesToAdd:
             opitmalSched = copy.deepcopy(OSched)
-            print("single lecture in for loop: {}".foramt(lecture))
             if addToTT('Lecture', lecture, OSched) == True:
                 global lowestTimeTableCost
                 if (lowestTimeTableCost is not None and totalHoursDaysTravel(opitmalSched) > lowestTimeTableCost):
@@ -362,6 +366,7 @@ def generateTermTT(courseClasses):
     # lecStreamAsc = lectures.sort(key=operator.itemgetter('numStreams'), reverse=False)
     lecStreamAsc = sorted(lectures, key=lambda i: (i['numStreams']))
     print(lecStreamAsc)
+    print("")
 
     addLectures(lecStreamAsc, OSched, courseClasses)
 
