@@ -120,7 +120,7 @@ def addToTT(type, classes, OSched):
     if day in OSched:
         targetDay = OSched[day]
         for event in targetDay:
-            if overLappingEvents(targetDay, event) == True:
+            if overLappingEvents(classes, event) == True:
                 return False
             else:
                 continue
@@ -158,7 +158,7 @@ def totalHoursDaysTravel(OSched):
     timeSpentAtUni = 0
 
     for daysPresent in OSched:
-        timeSpentAtUni += hoursInDay(daysPresent)
+        timeSpentAtUni += hoursInDay(OSched.get(daysPresent))
 
     return (timeSpentAtUni + travelTime)
 
@@ -214,7 +214,7 @@ def altDayClasses(OSched, classArray):
             if classes.get('day') != day:
                 classesOutput.append(classes)
 
-    return sorted(classes, key=lambda i: (i['day'], i['start']))
+    return sorted(classesOutput, key=lambda i: (i['day'], i['start']))
 
 
 def sameDayClasses(OSched, classArray):
@@ -225,7 +225,7 @@ def sameDayClasses(OSched, classArray):
             if classes.get('day') == day:
                 classesOutput.append(classes)
 
-    return sorted(classes, key=lambda i: (i['day'], i['start']))
+    return sorted(classesOutput, key=lambda i: (i['day'], i['start']))
 
 
 def selectCourseClasses(courseClasses, OSched, course, types, remaining):
