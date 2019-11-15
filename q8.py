@@ -11,7 +11,6 @@ lowestTimeTableCost = None
 def GetTimeTableQueries(subjectsArray):
 
     for subject in range(len(subjectsArray)):
-
         classesQuery = []
 
         classesQuery.append(
@@ -22,12 +21,13 @@ def GetTimeTableQueries(subjectsArray):
             join classtypes ct on (ct.id = cl.type_id)
             join meetings m on (cl.id = m.class_id)
             join rooms r on (r.id = m.room_id)
-            where t.name like '{}'
+            where t.name like '19T1'
             and r.code like 'K-%'
             and s.code like '{}'
-            order by ct.name, m.day, m.start_time;'''.format(term,subjectsArray[subject])
-        ) 
+            order by ct.name, m.day, m.start_time;'''.format(subjectsArray[subject])
+        )
 
+    print(classesQuery)
     return classesQuery
 
 
@@ -67,11 +67,11 @@ def queryClassTT(classesQuery):
                     'tag': tag, 'day': day, 'start': start_time, 'end': end_time
                 })
 
-    print(subjectClasses.get('COMP1511'))
-
+    print(subjectClasses)
+    conn.close()
     return subjectClasses
 
-    conn.close()
+
 
 
 def overLap(start1, end1, start2, end2):
@@ -95,7 +95,7 @@ def generateTermTT(courseClasses):
 
 if __name__ == "__main__":
 
-    if len(sys.argv > 1) and len(sys.argv <= 4):
+    if len(sys.argv) > 1 and len(sys.argv) <= 4:
         subjectsArray = sys.argv[1:]
     else:
         subjectsArray = ['COMP1511', 'MATH1131']
