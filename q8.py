@@ -133,6 +133,16 @@ def overLappingEvents(event1, event2):
 # only takes single dictionary objects not arrays.
 
 
+def differentStreamSelected(e1, e1Type, e2):
+    if e1Type == e2.get('type'):
+        if e1.get('tag') != e2.get('tag'):
+            return True
+        else:
+            return False
+    else:
+        return False
+
+
 def addToTT(type, classes, OSched, course):
     # print("input into addtt function: {}".format(classes))
     # print("")
@@ -142,6 +152,15 @@ def addToTT(type, classes, OSched, course):
         targetDay = OSched[day]
         for event in targetDay:
             if overLappingEvents(classes, event) == True:
+                return False
+            else:
+                continue
+    # look for already selected class.
+    for daysAtUni in OSched:
+        dayObject = OSched[daysAtUni]
+
+        for event in dayObject:
+            if differentStreamSelected(classes, type, event):
                 return False
             else:
                 continue
