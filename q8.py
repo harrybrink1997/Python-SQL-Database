@@ -320,7 +320,7 @@ def addLectures(lecStreamAsc, OSched, courseClasses):
         lectureToAdd = findLectures(course, courseClasses)
         for lecture in lectureToAdd:
             print(lecture)
-            addToTT('Lecture', lectureToAdd, OSched, course)
+            addToTT('Lecture', lecture, OSched, course)
             addLectures(lecStreamAsc, OSched, courseClasses)
     else:
 
