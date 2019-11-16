@@ -196,7 +196,7 @@ def addClasses(courseClasses, OSched, remaining):
     if (len(remaining) > 1):
         targetCourse = courseClasses.get(remaining[-1])
         for classtypes in targetCourse:
-            if (classtypes != 'Lecture'):
+            if classtypes != 'Lecture' and classtypes not in courseClassTypes:
                 courseClassTypes.append(classtypes)
 
     if (len(remaining) == 0 or (len(remaining) == 1 and len(courseClassTypes) == 0)):
@@ -208,8 +208,9 @@ def addClasses(courseClasses, OSched, remaining):
     CTSelection = []
     targetCourseObj = courseClasses.get(targetCourse)
     for classtypes in targetCourseObj:
-        if (classtypes != 'Lecture'):
+        if classtypes != 'Lecture' and classtypes not in CTSelection:
             CTSelection.append(classtypes)
+
     selectCourseClasses(courseClasses, OSched,
                         targetCourse, CTSelection, remaining)
 
