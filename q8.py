@@ -144,10 +144,10 @@ def addToTT(type, classes, OSched, course):
             if overLappingEvents(classes, event) == True:
                 return False
             else:
-                classes['classtype'] = type
-                classes['course'] = course
                 continue
 
+    classes['classtype'] = type
+    classes['course'] = course
     if day not in OSched:
         OSched[day] = []
         day = OSched[day]
