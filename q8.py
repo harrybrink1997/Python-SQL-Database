@@ -337,9 +337,9 @@ def addLectures(lecStreamAsc, OSched, courseClasses):
 
         lecturesToAdd = findLectures(course, courseClasses)
         # not working bringing out everything. TODO
+        lecturesToAdd.sort(key=operator.itemgetter('day'))
         print("lectures to add: {}".format(lecturesToAdd))
         print("")
-        lecturesToAdd.sort(key=operator.itemgetter('day'))
         for lecture in lecturesToAdd:
             opitmalSched = copy.deepcopy(OSched)
             if addToTT('Lecture', lecture, OSched, course) == True:
