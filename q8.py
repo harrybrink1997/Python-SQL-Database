@@ -141,29 +141,30 @@ def overLappingEvents(event1, event2):
 def addToTT(type, classes, OSched, course):
     # print("input into addtt function: {}".format(classes))
     # print("")
-    day = classes.get('day')
 
-    if day in OSched:
-        targetDay = OSched[day]
-        for event in targetDay:
-            if overLappingEvents(classes, event) == True:
-                return False
-            else:
+    if type(classes) is not list:
+        day = classes.get('day')
+        if day in OSched:
+            targetDay = OSched[day]
+            for event in targetDay:
+                if overLappingEvents(classes, event) == True:
+                    return False
+                else:
+                    continue
+    else:
+        for meeting in classes:
+
+            day = meeting.get('day')
+
+            if day not in OSched:
                 continue
-
-    # for meeting in classes:
-    #     print(meeting)
-    #     day = meeting.get('day')
-
-    #     if day not in OSched:
-    #         continue
-    #     else:
-    #         targetDay = OSched[day]
-    #         for event in targetDay:
-    #             if overLappingEvents(targetDay, event) == True:
-    #                 return False
-    #             else:
-    #                 continue
+            else:
+                targetDay = OSched[day]
+                for event in targetDay:
+                    if overLappingEvents(targetDay, event) == True:
+                        return False
+                    else:
+                        continue
 
     classes['classtype'] = type
     classes['course'] = course
