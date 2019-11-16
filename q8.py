@@ -142,29 +142,14 @@ def addToTT(type, classes, OSched, course):
     # print("input into addtt function: {}".format(classes))
     # print("")
 
-    if isinstance(classes, dict):
-        day = classes.get('day')
-        if day in OSched:
-            targetDay = OSched[day]
-            for event in targetDay:
-                if overLappingEvents(classes, event) == True:
-                    return False
-                else:
-                    continue
-    elif isinstance(classes, list):
-        for meeting in classes:
-
-            day = meeting.get('day')
-
-            if day not in OSched:
-                continue
+    day = classes.get('day')
+    if day in OSched:
+        targetDay = OSched[day]
+        for event in targetDay:
+            if overLappingEvents(classes, event) == True:
+                return False
             else:
-                targetDay = OSched[day]
-                for event in targetDay:
-                    if overLappingEvents(targetDay, event) == True:
-                        return False
-                    else:
-                        continue
+                continue
 
     classes['classtype'] = type
     classes['course'] = course
