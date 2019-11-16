@@ -142,7 +142,7 @@ def addToTT(type, classes, OSched, course):
     # print("input into addtt function: {}".format(classes))
     # print("")
 
-    if type(classes) is not list:
+    if type(classes) is dict:
         day = classes.get('day')
         if day in OSched:
             targetDay = OSched[day]
@@ -151,7 +151,7 @@ def addToTT(type, classes, OSched, course):
                     return False
                 else:
                     continue
-    else:
+    elif type(classes) is list:
         for meeting in classes:
 
             day = meeting.get('day')
@@ -332,6 +332,7 @@ def addLectures(lecStreamAsc, OSched, courseClasses):
         addLectures(lecStreamAsc, OSched, courseClasses)
     elif (numStreams == 1):
         lectureToAdd = findLectures(course, courseClasses)
+        print(lectureToAdd)
         addToTT('Lecture', lectureToAdd, OSched, course)
         addLectures(lecStreamAsc, OSched, courseClasses)
     else:
