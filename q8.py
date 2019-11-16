@@ -170,13 +170,25 @@ def addToTT(type, classes, OSched, course):
                         classes['course'] = course
                         continue
 
-    if day not in OSched:
-        OSched[day] = []
-        day = OSched[day]
-        day.append(classes)
+    if isinstance(classes, list):
+        for i in classes:
+            day = i.get('day')
+            if day not in OSched:
+                OSched[day] = []
+                day = OSched[day]
+                day.append(i)
+            else:
+                day = OSched[day]
+                day.append(i)
+
     else:
-        day = OSched[day]
-        day.append(classes)
+        if day not in OSched:
+            OSched[day] = []
+            day = OSched[day]
+            day.append(classes)
+        else:
+            day = OSched[day]
+            day.append(classes)
 
     return True
 
