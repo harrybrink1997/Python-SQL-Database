@@ -50,6 +50,7 @@ def queryClassTT(classesQuery):
 
     try:
         conn = psycopg2.connect("dbname='a3'")
+        conn.set_client_encoding('UTF8')
     except Exception as e:
         print("Unable to connect to the database")
         print(e)
@@ -318,6 +319,7 @@ def addLectures(lecStreamAsc, OSched, courseClasses):
     elif (numStreams == 1):
         lectureToAdd = findLectures(course, courseClasses)
         for lecture in lectureToAdd:
+            print(lecture)
             addToTT('Lecture', lectureToAdd, OSched, course)
             addLectures(lecStreamAsc, OSched, courseClasses)
     else:
