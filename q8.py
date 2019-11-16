@@ -39,12 +39,6 @@ def printTimeTable(optimisedTT, lowestTimeTableCost):
             endTime = subjects.get('end')
             print("    {} {}: {}-{}".format(course, classtype, startTime, endTime))
 
-    print("")
-    print("default printing")
-    print("")
-    print(lowestTimeTableCost)
-    print(optimisedTT)
-
 
 def queryClassTT(classesQuery):
 
@@ -319,7 +313,6 @@ def addLectures(lecStreamAsc, OSched, courseClasses):
     elif (numStreams == 1):
         lectureToAdd = findLectures(course, courseClasses)
         for lecture in lectureToAdd:
-            print(lecture)
             addToTT('Lecture', lecture, OSched, course)
             addLectures(lecStreamAsc, OSched, courseClasses)
     else:
@@ -401,8 +394,8 @@ def generateTermTT(courseClasses):
 
     global optimisedTT
     global lowestTimeTableCost
-    # for timetable in optimisedTT:
-    #     printTimeTable(timetable, lowestTimeTableCost)
+    for timetable in optimisedTT:
+        printTimeTable(timetable, lowestTimeTableCost)
 
 
 if __name__ == "__main__":
