@@ -21,8 +21,6 @@ def GetTimeTableQueries(subjectsArray):
 
 
 def printTimeTable(optimisedTT, lowestTimeTableCost):
-    print("")
-    print("Printing formatted timetable")
 
     print("Total hours: {}".format(round(lowestTimeTableCost, 1)))
 
@@ -144,8 +142,6 @@ def differentStreamSelected(e1, e1Type, e2):
 
 
 def addToTT(type, classes, OSched, course):
-    # print("input into addtt function: {}".format(classes))
-    # print("")
 
     day = classes.get('day')
     if day in OSched:
@@ -340,8 +336,6 @@ def addLectures(lecStreamAsc, OSched, courseClasses):
         lecturesToAdd = findLectures(course, courseClasses)
         # not working bringing out everything. TODO
         lecturesToAdd.sort(key=operator.itemgetter('day'))
-        print("lectures to add: {}".format(lecturesToAdd))
-        print("")
         for lecture in lecturesToAdd:
             opitmalSched = copy.deepcopy(OSched)
             if addToTT('Lecture', lecture, OSched, course) == True:
@@ -407,8 +401,6 @@ def generateTermTT(courseClasses):
 
     # lecStreamAsc = lectures.sort(key=operator.itemgetter('numStreams'), reverse=False)
     lecStreamAsc = sorted(lectures, key=lambda i: (i['numStreams']))
-    print(lecStreamAsc)
-    print("")
 
     addLectures(lecStreamAsc, OSched, courseClasses)
 
